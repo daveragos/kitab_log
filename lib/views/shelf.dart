@@ -29,16 +29,6 @@ class _ShelfState extends State<Shelf> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shelf'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your logic for the floating action button
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _readings,
         builder: (context, snapshot) {
@@ -105,6 +95,13 @@ class _ShelfState extends State<Shelf> {
             },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your logic for the floating action button
+        },
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
       ),
     );
   }

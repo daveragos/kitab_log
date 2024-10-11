@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kitablog/views/splash.dart';
+import 'package:kitablog/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: const Color.fromARGB(255, 255, 239, 219),
       ),
-      home: SplashScreen(),
+      home: Home(),
     );
   }
 }

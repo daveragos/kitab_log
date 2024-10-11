@@ -40,8 +40,11 @@ class _HomeState extends State<Home> {
               Container(
                 // padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 2,
+                  border: Border.symmetric(
+                    horizontal: BorderSide(
+                      width: 2,
+                      color: Colors.black,
+                    ),
                   )
                 ),
                 child: Row(
@@ -74,7 +77,7 @@ class _HomeState extends State<Home> {
                           'KITABlog',
                           style:  TextStyle(
                             fontSize: 24,
-                            fontFamily: 'Roboto',
+                            fontFamily: 'RobotoSlab',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -105,7 +108,7 @@ class _HomeState extends State<Home> {
               ),
               // Display the currently selected child view
               Container(
-                height: MediaQuery.of(context).size.height - 120, // Adjust height based on the bottom navigation bar
+                height: MediaQuery.of(context).size.height - 160, // Adjust height based on the bottom navigation bar
                 child: getBody(),
               ),
             ],
