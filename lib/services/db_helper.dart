@@ -101,7 +101,14 @@ String categories = bookInfo.categories != null ? bookInfo.categories.join(', ')
     }
   }
 
-
+Future<int> insertBook(SavedBook book) async {
+  final db = await database;
+  return await db.insert(
+    'books',
+    book.toMap(),
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
+}
 
   // Update book state
   Future<int> updateReadingState(int id, String newState) async {

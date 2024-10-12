@@ -3,8 +3,8 @@ import 'package:kitablog/services/db_helper.dart';
 import 'package:flutter/material.dart';
 
 class ShelfBookDetail extends StatefulWidget {
-  final SavedBook book; // Pass the Book object
-  final Function onUpdate; // Add onUpdate callback
+  final SavedBook book;
+  final Function onUpdate;
 
   const ShelfBookDetail({super.key, required this.book, required this.onUpdate});
 
@@ -55,6 +55,7 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
   @override
   void dispose() {
     _titleController.dispose();
+    _subtitleController.dispose();
     _authorsController.dispose();
     _imageUrlController.dispose();
     _descriptionController.dispose();
@@ -69,7 +70,6 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
     super.dispose();
   }
 
-  // Update the book's information
   Future<void> _updateBook() async {
     if (_formKey.currentState!.validate()) {
       SavedBook updatedBook = SavedBook(
@@ -92,97 +92,158 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
         state: _state,
       );
 
-      await _dbHelper.updateReading(updatedBook); // Call update method
-      widget.onUpdate(); // Notify the parent widget (if necessary)
-      Navigator.pop(context); // Pop the page after updating
+      await _dbHelper.updateReading(updatedBook);
+      widget.onUpdate();
+      Navigator.pop(context);
     }
   }
-Future<void> _deleteBook() async {
-  await _dbHelper.deleteReading(widget.book.id!); // Delete the book from DB
-  widget.onUpdate(); // Call the onUpdate function to refresh the parent page
-  Navigator.pop(context, true); // Pop the page and return true to indicate deletion
-}
 
+  Future<void> _deleteBook() async {
+    await _dbHelper.deleteReading(widget.book.id!);
+    widget.onUpdate();
+    Navigator.pop(context, true);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.book.title),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: _deleteBook, // Delete the book
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
             children: [
-              TextFormField(
-                controller: _titleController,
-                decoration: const InputDecoration(labelText: 'Title'),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.symmetric(
+                    horizontal: BorderSide(
+                      width: 2,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          right: BorderSide(
+                            width: 2,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          widget.book.title,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontFamily: 'RobotoSlab',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          left: BorderSide(
+                            width: 2,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.delete_outline),
+                        onPressed: _deleteBook,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              TextFormField(
-                controller: _subtitleController,
-                decoration: const InputDecoration(labelText: 'Subtitle'),
-              ),
-              TextFormField(
-                controller: _priceController,
-                decoration: const InputDecoration(labelText: 'Price'),
-                keyboardType: TextInputType.number,
-              ),
-              TextFormField(
-                controller: _ratingController,
-                decoration: const InputDecoration(labelText: 'Rating'),
-              ),
-              TextFormField(
-                controller: _pagesController,
-                decoration: const InputDecoration(labelText: 'Pages'),
-                keyboardType: TextInputType.number,
-              ),
-              TextFormField(
-                controller: _languageController,
-                decoration: const InputDecoration(labelText: 'Language'),
-              ),
-              TextFormField(
-                controller: _isbnController,
-                decoration: const InputDecoration(labelText: 'ISBN'),
-              ),
-              TextFormField(
-                controller: _categoryController,
-                decoration: const InputDecoration(labelText: 'Category'),
-              ),
-              TextFormField(
-                controller: _publisherController,
-                decoration: const InputDecoration(labelText: 'Publisher'),
-              ),
-              TextFormField(
-                controller: _publishedDateController,
-                decoration: const InputDecoration(labelText: 'Published Date'),
-              ),
-              DropdownButtonFormField<String>(
-                value: _state,
-                decoration: const InputDecoration(labelText: 'State'),
-                items: ['Planned', 'Reading', 'Completed']
-                    .map((state) => DropdownMenuItem<String>(
-                          value: state,
-                          child: Text(state),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _state = value!;
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _updateBook, // Update book info
-                child: const Text('Update Book Info'),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _titleController,
+                        decoration: const InputDecoration(labelText: 'Title'),
+                      ),
+                      TextFormField(
+                        controller: _subtitleController,
+                        decoration: const InputDecoration(labelText: 'Subtitle'),
+                      ),
+                      TextFormField(
+                        controller: _priceController,
+                        decoration: const InputDecoration(labelText: 'Price'),
+                        keyboardType: TextInputType.number,
+                      ),
+                      TextFormField(
+                        controller: _ratingController,
+                        decoration: const InputDecoration(labelText: 'Rating'),
+                      ),
+                      TextFormField(
+                        controller: _pagesController,
+                        decoration: const InputDecoration(labelText: 'Pages'),
+                        keyboardType: TextInputType.number,
+                      ),
+                      TextFormField(
+                        controller: _languageController,
+                        decoration: const InputDecoration(labelText: 'Language'),
+                      ),
+                      TextFormField(
+                        controller: _isbnController,
+                                                decoration: const InputDecoration(labelText: 'ISBN'),
+                      ),
+                      TextFormField(
+                        controller: _categoryController,
+                        decoration: const InputDecoration(labelText: 'Category'),
+                      ),
+                      //description
+                      TextFormField(
+                        controller: _descriptionController,
+                        decoration: const InputDecoration(labelText: 'Description'),
+                      ),
+                      TextFormField(
+                        controller: _publisherController,
+                        decoration: const InputDecoration(labelText: 'Publisher'),
+                      ),
+                      TextFormField(
+                        controller: _publishedDateController,
+                        decoration: const InputDecoration(labelText: 'Published Date'),
+                      ),
+                      DropdownButtonFormField<String>(
+                        value: _state,
+                        decoration: const InputDecoration(labelText: 'State'),
+                        items: ['Planned', 'Reading', 'Completed']
+                            .map((state) => DropdownMenuItem<String>(
+                                  value: state,
+                                  child: Text(state),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _state = value!;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: _updateBook,
+                        child: const Text('Update Book Info'),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),

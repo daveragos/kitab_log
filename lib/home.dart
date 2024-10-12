@@ -1,9 +1,10 @@
-import 'package:kitablog/views/account.dart';
-import 'package:kitablog/views/shelf.dart';
-import 'package:kitablog/views/explore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-
+import 'package:kitablog/services/google_books.dart';
+import 'package:kitablog/views/account.dart';
+import 'package:kitablog/views/explore.dart';
+import 'package:kitablog/views/shelf.dart';
+import 'package:kitablog/views/widgets/saved_book_list.dart';
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -13,7 +14,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 1;
-
   final List<Widget> _children = [
     const Shelf(),
     const Explore(),
@@ -30,6 +30,60 @@ class _HomeState extends State<Home> {
     return _children[_selectedIndex];
   }
 
+  void _searchBooks(String query) async {
+    final googleBooksAPI = GoogleBooksAPI();
+    try {
+      final results = await googleBooksAPI.searchBooks(query);
+      // Navigate to a new screen to display the results
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SavedBookList(books: results),
+        ),
+      );
+    } catch (e) {
+      // Handle error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to search books: $e')),
+      );
+    }
+  }
+
+  Future<void> _showSearchDialog() async {
+    final queryController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Search Books'),
+          content: TextField(
+            controller: queryController,
+            decoration: const InputDecoration(hintText: 'Enter book title or author'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                final query = queryController.text;
+                if (query.isNotEmpty) {
+                  _searchBooks(query);
+                }
+                Navigator.of(context).pop();
+              },
+              child: const Text('Search'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +92,6 @@ class _HomeState extends State<Home> {
           child: Column(
             children: [
               Container(
-                // padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   border: Border.symmetric(
                     horizontal: BorderSide(
@@ -74,7 +127,7 @@ class _HomeState extends State<Home> {
                    const Expanded(
                       child: Center(
                         child: Text(
-                          'KITABlog',
+                          'KITAB-Log',
                           style:  TextStyle(
                             fontSize: 24,
                             fontFamily: 'RobotoSlab',
@@ -93,13 +146,9 @@ class _HomeState extends State<Home> {
                         )
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.notifications_none),
+                        icon: const Icon(Icons.search),
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Not implemented yet.'),
-                            ),
-                          );
+                          _showSearchDialog();
                         },
                       ),
                     ),

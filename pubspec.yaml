@@ -19,6 +19,7 @@ dependencies:
   path_provider: ^2.1.4
   liquid_pull_to_refresh: ^3.0.1
   gif: ^2.3.0
+  image_picker: ^1.1.2
 dev_dependencies:
   flutter_launcher_icons: ^0.14.1
   flutter_test:

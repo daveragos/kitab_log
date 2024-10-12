@@ -142,7 +142,10 @@ class _BookDetailState extends State<BookDetail> {
                         }
                       : null, // Disable button if book already exists
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    shape: BeveledRectangleBorder(),
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.orangeAccent,
+                    padding: const EdgeInsets.all(12.0),
                     textStyle: const TextStyle(fontSize: 18),
                   ),
                   child: bookState != null
