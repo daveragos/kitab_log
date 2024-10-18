@@ -101,9 +101,29 @@ class _BookDetailState extends State<BookDetail> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Authors: ${bookInfo.authors}',
+                            'Authors: ${bookInfo.authors.join(', ')}',
                             style: const TextStyle(fontSize: 18),
                           ),
+                          const SizedBox(height: 8),
+                          //publisher
+                          Text(
+                            'Publisher: ${bookInfo.publisher}',
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                          const SizedBox(height: 8),
+                          //category
+                          Text(
+                            'Category: ${bookInfo.categories.join(', ')}',
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                          const SizedBox(height: 8),
+                          //published date with cutting out the time
+                          Text(
+                            'Published Date: ${bookInfo.publishedDate.toString().substring(0, 10)}',
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                          const SizedBox(height: 8),
+                          //
                           const SizedBox(height: 16),
                           Text(
                             bookInfo.description ?? 'No description available.',
@@ -142,7 +162,7 @@ class _BookDetailState extends State<BookDetail> {
                         }
                       : null, // Disable button if book already exists
                   style: ElevatedButton.styleFrom(
-                    shape: BeveledRectangleBorder(),
+                    shape: const BeveledRectangleBorder(),
                     foregroundColor: Colors.black,
                     backgroundColor: Colors.orangeAccent,
                     padding: const EdgeInsets.all(12.0),

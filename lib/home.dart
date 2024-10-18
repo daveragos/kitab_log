@@ -1,8 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:kitablog/services/google_books.dart';
+import 'package:kitablog/services/api_helper.dart';
 import 'package:kitablog/views/account.dart';
 import 'package:kitablog/views/explore.dart';
+import 'package:kitablog/views/search.dart';
 import 'package:kitablog/views/shelf.dart';
 import 'package:kitablog/views/widgets/saved_book_list.dart';
 class Home extends StatefulWidget {
@@ -27,13 +28,14 @@ class _HomeState extends State<Home> {
   ];
 
   Widget getBody() {
+
     return _children[_selectedIndex];
   }
 
   void _searchBooks(String query) async {
-    final googleBooksAPI = GoogleBooksAPI();
+    final googleBooksAPI = ApiHelper();
     try {
-      final results = await googleBooksAPI.searchBooks(query);
+      final results = await googleBooksAPI.getBooks(query);
       // Navigate to a new screen to display the results
       Navigator.push(
         context,
@@ -92,7 +94,7 @@ class _HomeState extends State<Home> {
           child: Column(
             children: [
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border.symmetric(
                     horizontal: BorderSide(
                       width: 2,
@@ -145,18 +147,24 @@ class _HomeState extends State<Home> {
                           ),
                         )
                       ),
-                      child: IconButton(
-                        icon: const Icon(Icons.search),
-                        onPressed: () {
-                          _showSearchDialog();
-                        },
-                      ),
+                      child: // In the Home Page widget, modify the search button:
+
+IconButton(
+  icon: const Icon(Icons.search),
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SearchPage()),
+    );
+  },
+),
+
                     ),
                   ],
                 ),
               ),
               // Display the currently selected child view
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height - 160, // Adjust height based on the bottom navigation bar
                 child: getBody(),
               ),

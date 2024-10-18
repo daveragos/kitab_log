@@ -3,10 +3,10 @@ import 'package:google_books_api/google_books_api.dart';
 import 'package:kitablog/views/book_detail.dart';
 
 class BookList extends StatefulWidget {
-  const BookList({super.key, required this.query, required this.getBooks});
+  const BookList({super.key, required this.query, required this.books});
 
   final String query;
-  final Function(String) getBooks;
+  final List<Book> books;
 
   @override
   State<BookList> createState() => _BookListState();
@@ -21,7 +21,7 @@ class _BookListState extends State<BookList> {
           child: Column(
             children: [
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border.symmetric(
                     horizontal: BorderSide(
                       width: 2,
@@ -52,7 +52,7 @@ class _BookListState extends State<BookList> {
                       child: Center(
                         child: Text(
                           widget.query,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 24,
                             fontFamily: 'RobotoSlab',
                             fontWeight: FontWeight.bold,
@@ -84,103 +84,89 @@ class _BookListState extends State<BookList> {
                 ),
               ),
               // Vertical list of all books
-              FutureBuilder<List<Book>>(
-                future: widget.getBooks(widget.query), // Fetch all books
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator()); // Show loading
-                  } else if (snapshot.hasError) {
-                    return const Center(child: Text('Error loading books.'));
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text('No books available.'));
-                  }
-
-                  // Display vertical list of all books
-                  return ListView.builder(
-                    shrinkWrap: true, // Important to make ListView scroll within SingleChildScrollView
-                    physics: const NeverScrollableScrollPhysics(), // Prevent internal scroll
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      final book = snapshot.data![index];
-                      return GestureDetector(
-                        onTap: () {
-                          // Navigate to the BookDetail screen
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BookDetail(book: book),
-                            ),
-                          );
-                        },
-                        child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 2,
-                      ),
-                    ),
-                    margin: const EdgeInsets.all(8.0),
-                    padding: const EdgeInsets.all(4.0),
-                    width: 150, // Match the width of the image
-                    child: Row(
-                      children: [
-                        Image.network(
-                          book.volumeInfo.imageLinks?['thumbnail'].toString() ??
-                              'https://lh3.googleusercontent.com/proxy/4z1e5tJL9nhsfFc6X3jsElJ_xOvo1uuiiCb5J_qdv7ZjOw5J4bzP1E3FdFbYBlvQpcIs7kgXC2xcKovRP-L2cGEop_IXbL3P1SauzTkY',
-
-                          width: 150,
-                          height: 200,
-                          fit: BoxFit.cover,
+              ListView.builder(
+                shrinkWrap: true, // Important to make ListView scroll within SingleChildScrollView
+                physics: const NeverScrollableScrollPhysics(), // Prevent internal scroll
+                itemCount: widget.books.length,
+                itemBuilder: (context, index) {
+                  final book = widget.books[index];
+                  return GestureDetector(
+                    onTap: () {
+                      // Navigate to the BookDetail screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BookDetail(book: book),
                         ),
-                        const SizedBox(width: 8),
-                        Expanded( // Use Expanded to allow the column to take up available space
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                book.volumeInfo.title,
-                                overflow: TextOverflow.ellipsis, // Add ellipsis for overflow
-                                maxLines: 2, // Allow for two lines for the title
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2,
+                        ),
+                      ),
+                      margin: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(4.0),
+                      width: 150, // Match the width of the image
+                      child: Row(
+                        children: [
+                          Image.network(
+                            book.volumeInfo.imageLinks?['thumbnail'].toString() ??
+                                'https://lh3.googleusercontent.com/proxy/4z1e5tJL9nhsfFc6X3jsElJ_xOvo1uuiiCb5J_qdv7ZjOw5J4bzP1E3FdFbYBlvQpcIs7kgXC2xcKovRP-L2cGEop_IXbL3P1SauzTkY',
+                            width: 100,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          ),
+                          const SizedBox(width: 8.0),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  book.volumeInfo.title,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2, // Allow for two lines for the title
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              // Wrap authors in a Wrap to display them horizontally
-                              Text(
-                                book.volumeInfo.authors.join(', '),
-                                overflow: TextOverflow.ellipsis, // Add ellipsis for overflow
-                                style: const TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
+                                Text(
+                                  book.volumeInfo.authors.join(', '),
+                                  overflow: TextOverflow.ellipsis, // Add ellipsis for overflow
+                                  maxLines: 1, // Allow for one line for the authors
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 4), // Space between authors and description
-                              Text(
-                                book.volumeInfo.description,
-                                overflow: TextOverflow.ellipsis, // Add ellipsis for overflow
-                                maxLines: 2, // Allow for four lines for the description
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
+                                const SizedBox(height: 4), // Space between authors and description
+                                Text(
+                                  book.volumeInfo.description,
+                                  overflow: TextOverflow.ellipsis, // Add ellipsis for overflow
+                                  maxLines: 2, // Allow for four lines for the description
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 ),
-                              ),
 
-                              Text(
-                                'Rating: ${book.volumeInfo.averageRating}',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
+                                Text(
+                                  'Rating: ${book.volumeInfo.averageRating}',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Pages: ${book.volumeInfo.pageCount}',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
+                                Text(
+                                  'Pages: ${book.volumeInfo.pageCount}',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  textAlign: TextAlign.end,
                                 ),
-                                textAlign: TextAlign.end,
-                              ),
                               Row(
                                 children: [
                                   ElevatedButton(
@@ -194,7 +180,7 @@ class _BookListState extends State<BookList> {
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                    shape: BeveledRectangleBorder(),
+                    shape: const BeveledRectangleBorder(),
                     backgroundColor: Colors.orangeAccent,
                     foregroundColor: Colors.black,
 
@@ -215,7 +201,7 @@ class _BookListState extends State<BookList> {
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                    shape: BeveledRectangleBorder(),
+                    shape: const BeveledRectangleBorder(),
                     foregroundColor: Colors.black,
                     backgroundColor: Colors.orangeAccent,
                     padding: const EdgeInsets.all(12.0),
@@ -225,14 +211,12 @@ class _BookListState extends State<BookList> {
                                   ),
                                 ],
                               ),
-                            ],
+                              ],
+                            ),
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                      );
-                    },
                   );
                 },
               ),

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_books_api/google_books_api.dart';
-import 'package:kitablog/models/saved_book.dart';
 import 'package:kitablog/views/book_detail.dart';
 
 class SavedBookList extends StatelessWidget {
   final List<Book> books;
 
-  const SavedBookList({Key? key, required this.books}) : super(key: key);
+  const SavedBookList({super.key, required this.books});
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,3 @@
-import 'package:google_books_api/google_books_api.dart';
 
 class SavedBook {
   final int? id;

@@ -112,7 +112,7 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
           child: Column(
             children: [
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border.symmetric(
                     horizontal: BorderSide(
                       width: 2,
@@ -143,7 +143,7 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
                       child: Center(
                         child: Text(
                           widget.book.title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 24,
                             fontFamily: 'RobotoSlab',
                             fontWeight: FontWeight.bold,

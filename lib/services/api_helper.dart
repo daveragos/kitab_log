@@ -1,19 +1,15 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_books_api/google_books_api.dart';
-import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:kitablog/models/saved_book.dart';
 
-class GoogleBooksAPI {
-  static const String _baseUrl = 'https://www.googleapis.com/books/v1/volumes';
+class ApiHelper {
 
-
-  Future<List<Book>> searchBooks(String query) async {
+  Future<List<Book>> getBooks(String query, {QueryType queryType = QueryType.subject}) async {
     List<Book> books = [];
     try {
-    books = await GoogleBooksAPI().searchBooks(query);
+      books = await const GoogleBooksApi().searchBooks(query, queryType: queryType, orderBy: OrderBy.newest, langRestrict: 'en', );
     } on SocketException catch (e) {
       debugPrint(e.toString());
     } on ClientException catch (e) {

@@ -18,7 +18,7 @@ class _ShelfState extends State<Shelf> with SingleTickerProviderStateMixin {
   List<SavedBook> _filteredBooks = [];
   List<SavedBook> _searchedBooks = [];
   String _selectedTab = 'All';
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   bool _isSearching = false;
 
   @override
@@ -93,12 +93,12 @@ class _ShelfState extends State<Shelf> with SingleTickerProviderStateMixin {
           backgroundColor: Colors.orangeAccent,
           title: TextField(
             controller: _searchController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: 'Search books...',
               border: InputBorder.none,
               hintStyle: TextStyle(color: Colors.white70),
             ),
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
           bottom: TabBar(
             onTap: (index) {

@@ -7,7 +7,7 @@ import 'package:kitablog/services/db_helper.dart';
 class AddBookScreen extends StatefulWidget {
   final Function onSave;
 
-  const AddBookScreen({Key? key, required this.onSave}) : super(key: key);
+  const AddBookScreen({super.key, required this.onSave});
 
   @override
   _AddBookScreenState createState() => _AddBookScreenState();
@@ -53,7 +53,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
       SavedBook newBook = SavedBook(
         bookId: DateTime.now().millisecondsSinceEpoch.toString(),
         title: _titleController.text,
-        subtitle: _subtitleController.text ?? '',
+        subtitle: _subtitleController.text ?? ' ',
         authors: _authorController.text,
         description: _descriptionController.text,
         pages: _pagesController.text ?? '0',
@@ -61,12 +61,12 @@ class _AddBookScreenState extends State<AddBookScreen> {
         rating: _ratingController.text ?? '0.0',
         categories: _categoriesController.text,
         state: _state,
-        imageUrl: _selectedImage != null ? _selectedImage!.path : '', // Store the image path
-        publisher: _publisherController.text,
-        publishedDate: _publishedDateController.text,
-        isbn: _isbnController.text,
-        language: _languageController.text,
-        timestamp: _timestampController.text,
+        imageUrl: _selectedImage != null ? _selectedImage!.path : ' ', // Store the image path
+        publisher: _publisherController.text ?? ' ',
+        publishedDate: _publishedDateController.text ?? ' ',
+        isbn: _isbnController.text ?? ' ',
+        language: _languageController.text ?? ' ',
+        timestamp: DateTime.now().toIso8601String(),
       );
 
       // Save the book in the database
@@ -83,10 +83,12 @@ class _AddBookScreenState extends State<AddBookScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-                decoration: BoxDecoration(
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
                   border: Border.symmetric(
                     horizontal: BorderSide(
                       width: 2,
@@ -113,7 +115,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                         },
                       ),
                     ),
-                    Expanded(
+                    const Expanded(
                       child: Center(
                         child: Text(
                           'Add New Book',
@@ -137,7 +139,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       child: IconButton(
                         icon: const Icon(Icons.save_sharp),
                         onPressed: () {
-                          // Save the book in the database
                           _saveBook();
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -150,126 +151,128 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   ],
                 ),
               ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formKey,
-              child: ListView(
-                children: [
-                  TextFormField(
-                    controller: _titleController,
-                    decoration: const InputDecoration(labelText: 'Title'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a title';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _authorController,
-                    decoration: const InputDecoration(labelText: 'Author(s)'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter the author(s)';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _descriptionController,
-                    decoration: const InputDecoration(labelText: 'Description'),
-                    maxLines: 3,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a description';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _pagesController,
-                    decoration: const InputDecoration(labelText: 'Pages'),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter the number of pages';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _priceController,
-                    decoration: const InputDecoration(labelText: 'Price'),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter the price';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _ratingController,
-                    decoration: const InputDecoration(labelText: 'Rating'),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter the rating';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _categoriesController,
-                    decoration: const InputDecoration(labelText: 'Categories'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter categories';
-                      }
-                      return null;
-                    },
-                  ),
-                  DropdownButtonFormField<String>(
-                    value: _state,
-                    decoration: const InputDecoration(labelText: 'State'),
-                    items: const [
-                      DropdownMenuItem(value: 'Planned', child: Text('Planned')),
-                      DropdownMenuItem(value: 'Reading', child: Text('Reading')),
-                      DropdownMenuItem(value: 'Completed', child: Text('Completed')),
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        _state = value!;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
                     children: [
-                      if (_selectedImage != null)
-                        Image.file(
-                          _selectedImage!,
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
+                      TextFormField(
+                        controller: _titleController,
+                        decoration: const InputDecoration(labelText: 'Title'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a title';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _authorController,
+                        decoration: const InputDecoration(labelText: 'Author(s)'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the author(s)';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _descriptionController,
+                        decoration: const InputDecoration(labelText: 'Description'),
+                        maxLines: 3,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a description';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _pagesController,
+                        decoration: const InputDecoration(labelText: 'Pages'),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the number of pages';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _priceController,
+                        decoration: const InputDecoration(labelText: 'Price'),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the price';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _ratingController,
+                        decoration: const InputDecoration(labelText: 'Rating'),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the rating';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _categoriesController,
+                        decoration: const InputDecoration(labelText: 'Categories'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter categories';
+                          }
+                          return null;
+                        },
+                      ),
+                      DropdownButtonFormField<String>(
+                        value: _state,
+                        decoration: const InputDecoration(labelText: 'State'),
+                        items: const [
+                          DropdownMenuItem(value: 'Planned', child: Text('Planned')),
+                          DropdownMenuItem(value: 'Reading', child: Text('Reading')),
+                          DropdownMenuItem(value: 'Completed', child: Text('Completed')),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            _state = value!;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          if (_selectedImage != null)
+                            Image.file(
+                              _selectedImage!,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                          ElevatedButton(
+                            onPressed: _pickImage,
+                            child: const Text('Pick Image'),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: _pickImage,
-                        child: const Text('Pick Image'),
+                        onPressed: _saveBook,
+                        child: const Text('Save Book'),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _saveBook,
-                    child: const Text('Save Book'),
-                  ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
