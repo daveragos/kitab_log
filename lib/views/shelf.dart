@@ -34,25 +34,27 @@ class _ShelfState extends State<Shelf> with SingleTickerProviderStateMixin {
   void _loadReadings() async {
     final readings = await DBHelper().getReadings();
     setState(() {
-      _allBooks = readings.map((reading) => SavedBook(
-            id: reading['id'] as int?,
-            bookId: reading['bookId'],
-            title: reading['title'],
-            subtitle: reading['subtitle'],
-            authors: reading['authors'],
-            description: reading['description'],
-            imageUrl: reading['imageUrl'],
-            publishedDate: reading['publishedDate'],
-            isbn: reading['isbn'],
-            publisher: reading['publisher'],
-            pages: reading['pages'],
-            categories: reading['categories'],
-            price: reading['price'],
-            language: reading['language'],
-            rating: reading['rating'],
-            state: reading['state'],
-            timestamp: reading['timestamp'],
-          )).toList();
+      _allBooks = readings
+          .map((reading) => SavedBook(
+                id: reading['id'] as int?,
+                bookId: reading['bookId'],
+                title: reading['title'],
+                subtitle: reading['subtitle'],
+                authors: reading['authors'],
+                description: reading['description'],
+                imageUrl: reading['imageUrl'],
+                publishedDate: reading['publishedDate'],
+                isbn: reading['isbn'],
+                publisher: reading['publisher'],
+                pages: reading['pages'],
+                categories: reading['categories'],
+                price: reading['price'],
+                language: reading['language'],
+                rating: reading['rating'],
+                state: reading['state'],
+                timestamp: reading['timestamp'],
+              ))
+          .toList();
 
       _filterBooks(_selectedTab);
     });
@@ -71,7 +73,8 @@ class _ShelfState extends State<Shelf> with SingleTickerProviderStateMixin {
     if (query.isEmpty) {
       setState(() {
         _isSearching = false;
-        _searchedBooks = _filteredBooks; // Reset to the filtered list when search is cleared
+        _searchedBooks =
+            _filteredBooks; // Reset to the filtered list when search is cleared
       });
     } else {
       setState(() {
@@ -122,18 +125,17 @@ class _ShelfState extends State<Shelf> with SingleTickerProviderStateMixin {
         ),
         body: _buildBookList(),
         floatingActionButton: FloatingActionButton(
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddBookScreen(onSave: _loadReadings),
-      ),
-    );
-  },
-  tooltip: 'Add Book',
-  child: const Icon(Icons.add),
-),
-
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddBookScreen(onSave: _loadReadings),
+              ),
+            );
+          },
+          tooltip: 'Add Book',
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

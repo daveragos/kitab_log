@@ -6,6 +6,7 @@ import 'package:kitablog/views/explore.dart';
 import 'package:kitablog/views/search.dart';
 import 'package:kitablog/views/shelf.dart';
 import 'package:kitablog/views/widgets/saved_book_list.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -16,7 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 1;
   final List<Widget> _children = [
-    const Shelf(),
+    // const Shelf(),
     const Explore(),
     const Account(),
   ];
@@ -28,7 +29,6 @@ class _HomeState extends State<Home> {
   ];
 
   Widget getBody() {
-
     return _children[_selectedIndex];
   }
 
@@ -61,7 +61,8 @@ class _HomeState extends State<Home> {
           title: const Text('Search Books'),
           content: TextField(
             controller: queryController,
-            decoration: const InputDecoration(hintText: 'Enter book title or author'),
+            decoration:
+                const InputDecoration(hintText: 'Enter book title or author'),
           ),
           actions: [
             TextButton(
@@ -95,25 +96,23 @@ class _HomeState extends State<Home> {
             children: [
               Container(
                 decoration: const BoxDecoration(
-                  border: Border.symmetric(
-                    horizontal: BorderSide(
-                      width: 2,
-                      color: Colors.black,
-                    ),
-                  )
-                ),
+                    border: Border.symmetric(
+                  horizontal: BorderSide(
+                    width: 2,
+                    color: Colors.black,
+                  ),
+                )),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       decoration: const BoxDecoration(
-                        border: Border(
-                          right: BorderSide(
-                            width: 2,
-                            color: Colors.black,
-                          ),
-                        )
-                      ),
+                          border: Border(
+                        right: BorderSide(
+                          width: 2,
+                          color: Colors.black,
+                        ),
+                      )),
                       child: IconButton(
                         icon: const Icon(Icons.menu),
                         onPressed: () {
@@ -125,12 +124,11 @@ class _HomeState extends State<Home> {
                         },
                       ),
                     ),
-
-                   const Expanded(
+                    const Expanded(
                       child: Center(
                         child: Text(
                           'KITAB-Log',
-                          style:  TextStyle(
+                          style: TextStyle(
                             fontSize: 24,
                             fontFamily: 'RobotoSlab',
                             fontWeight: FontWeight.bold,
@@ -140,37 +138,39 @@ class _HomeState extends State<Home> {
                     ),
                     Container(
                       decoration: const BoxDecoration(
-                        border: Border(
-                          left: BorderSide(
-                            width: 2,
-                            color: Colors.black,
-                          ),
-                        )
-                      ),
+                          border: Border(
+                        left: BorderSide(
+                          width: 2,
+                          color: Colors.black,
+                        ),
+                      )),
                       child: // In the Home Page widget, modify the search button:
 
-IconButton(
-  icon: const Icon(Icons.search),
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const SearchPage()),
-    );
-  },
-),
-
+                          IconButton(
+                        icon: const Icon(Icons.search),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchPage()),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
               ),
               // Display the currently selected child view
               SizedBox(
-                height: MediaQuery.of(context).size.height - 160, // Adjust height based on the bottom navigation bar
-                child: IndexedStack(
-                  index: _selectedIndex,
-                  children: _children
-                  ),
-              ),
+                height: MediaQuery.of(context).size.height -
+                    160, // Adjust height based on the bottom navigation bar
+                child:  _selectedIndex == 0
+                    ? const Shelf() // Reload Shelf page to get updated DB content
+                    : IndexedStack(
+                        index: _selectedIndex - 1, // Shift index by 1 for the remaining children
+                        children: _children,
+                      ),
+                ),
             ],
           ),
         ),

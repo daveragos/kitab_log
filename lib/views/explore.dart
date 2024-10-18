@@ -13,10 +13,12 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
-  Future<List<Book>> getBooks(String query, {QueryType queryType = QueryType.subject}) async {
+  Future<List<Book>> getBooks(String query,
+      {QueryType queryType = QueryType.subject}) async {
     List<Book> books = [];
     try {
-      books = await const GoogleBooksApi().searchBooks(query, queryType: queryType, orderBy: OrderBy.newest, langRestrict: 'en');
+      books = await const GoogleBooksApi().searchBooks(query,
+          queryType: queryType, orderBy: OrderBy.newest, langRestrict: 'en');
     } on SocketException catch (e) {
       debugPrint(e.toString());
     } on ClientException catch (e) {

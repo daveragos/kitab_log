@@ -63,7 +63,8 @@ class _BookDetailState extends State<BookDetail> {
                     fit: StackFit.expand,
                     children: [
                       Image.network(
-                        bookInfo.imageLinks?['thumbnail'].toString() ?? 'https://lh3.googleusercontent.com/proxy/4z1e5tJL9nhsfFc6X3jsElJ_xOvo1uuiiCb5J_qdv7ZjOw5J4bzP1E3FdFbYBlvQpcIs7kgXC2xcKovRP-L2cGEop_IXbL3P1SauzTkY',
+                        bookInfo.imageLinks?['thumbnail'].toString() ??
+                            'https://lh3.googleusercontent.com/proxy/4z1e5tJL9nhsfFc6X3jsElJ_xOvo1uuiiCb5J_qdv7ZjOw5J4bzP1E3FdFbYBlvQpcIs7kgXC2xcKovRP-L2cGEop_IXbL3P1SauzTkY',
                         fit: BoxFit.cover,
                       ),
                       BackdropFilter(
@@ -74,7 +75,8 @@ class _BookDetailState extends State<BookDetail> {
                       ),
                       Center(
                         child: Image.network(
-                          bookInfo.imageLinks?['thumbnail'].toString() ?? 'https://lh3.googleusercontent.com/proxy/4z1e5tJL9nhsfFc6X3jsElJ_xOvo1uuiiCb5J_qdv7ZjOw5J4bzP1E3FdFbYBlvQpcIs7kgXC2xcKovRP-L2cGEop_IXbL3P1SauzTkY',
+                          bookInfo.imageLinks?['thumbnail'].toString() ??
+                              'https://lh3.googleusercontent.com/proxy/4z1e5tJL9nhsfFc6X3jsElJ_xOvo1uuiiCb5J_qdv7ZjOw5J4bzP1E3FdFbYBlvQpcIs7kgXC2xcKovRP-L2cGEop_IXbL3P1SauzTkY',
                           width: 200,
                           height: 300,
                           fit: BoxFit.cover,
@@ -139,7 +141,8 @@ class _BookDetailState extends State<BookDetail> {
                             color: Colors.black,
                           ),
                           const SizedBox(
-                            height: 50,)
+                            height: 50,
+                          )
                         ],
                       ),
                     ),
@@ -157,18 +160,24 @@ class _BookDetailState extends State<BookDetail> {
               right: 0,
               child: Container(
                 color: Colors.white.withOpacity(0.9), // Slight transparency
-                padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 32.0),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 12.0, horizontal: 32.0),
                 child: ElevatedButton(
                   onPressed: bookState == null
                       ? () async {
                           // Save the book in SQLite when the user starts reading
-                          await DBHelper().insertReading(widget.book);
+                          await DBHelper()
+                              .insertReadingFromGoogleApi(widget.book);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Book added to your reading list!')),
+                            const SnackBar(
+                                content:
+                                    Text('Book added to your reading list!')),
                           );
                           setState(() {
-                            bookState = 'Planned'; // Set the state to Planned when the user starts reading
+                            bookState =
+                                'Planned'; // Set the state to Planned when the user starts reading
                           });
+                          await DBHelper().getReadings();
                         }
                       : null, // Disable button if book already exists
                   style: ElevatedButton.styleFrom(

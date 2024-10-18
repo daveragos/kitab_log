@@ -61,7 +61,7 @@ class DBHelper {
     ''');
   }
 
-  Future<int> insertReading(Book book) async {
+  Future<int> insertReadingFromGoogleApi(Book book) async {
   final db = await database;
   final bookInfo = book.volumeInfo;
 
@@ -102,11 +102,9 @@ String categories = bookInfo.categories != null ? bookInfo.categories.join(', ')
     }
   }
 
-Future<int> insertBook(SavedBook book) async {
+Future<int> insertBookFromLocal(SavedBook book) async {
   final db = await database;
-  debugPrint(book.toMap().toString());
-  return await db.insert(
-    'books',
+  return await db.insert('readings',
     book.toMap(),
     conflictAlgorithm: ConflictAlgorithm.replace,
   );

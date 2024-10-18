@@ -70,7 +70,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
       );
 
       // Save the book in the database
-      await DBHelper().insertBook(newBook);
+      await DBHelper().insertBookFromLocal(newBook);
 
       // Call the onSave function to refresh the book list
       widget.onSave();

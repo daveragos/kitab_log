@@ -24,7 +24,8 @@ class _BookRowState extends State<BookRow> {
             children: [
               Text(
                 widget.query,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const Spacer(),
               InkWell(
@@ -32,7 +33,8 @@ class _BookRowState extends State<BookRow> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => BookList(query: widget.query, books: widget.books),
+                      builder: (context) =>
+                          BookList(query: widget.query, books: widget.books),
                     ),
                   );
                 },
@@ -96,7 +98,8 @@ class _BookRowState extends State<BookRow> {
                             ),
                             Text(
                               book.volumeInfo.authors.join(', '),
-                              overflow: TextOverflow.ellipsis, // Add ellipsis for overflow
+                              overflow: TextOverflow
+                                  .ellipsis, // Add ellipsis for overflow
                               maxLines: 1, // Allow for one line for the authors
                               style: const TextStyle(
                                 fontSize: 12,
