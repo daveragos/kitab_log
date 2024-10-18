@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:kitablog/models/saved_book.dart';
 import 'package:google_books_api/google_books_api.dart';
 import 'package:path/path.dart';
@@ -103,6 +104,7 @@ String categories = bookInfo.categories != null ? bookInfo.categories.join(', ')
 
 Future<int> insertBook(SavedBook book) async {
   final db = await database;
+  debugPrint(book.toMap().toString());
   return await db.insert(
     'books',
     book.toMap(),

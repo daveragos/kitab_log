@@ -100,8 +100,12 @@ class _BookDetailState extends State<BookDetail> {
                             ),
                           ),
                           const SizedBox(height: 8),
+                          const Divider(
+                            thickness: 1,
+                            color: Colors.black,
+                          ),
                           Text(
-                            'Authors: ${bookInfo.authors.join(', ')}',
+                            'Author(s): ${bookInfo.authors.join(', ')}',
                             style: const TextStyle(fontSize: 18),
                           ),
                           const SizedBox(height: 8),
@@ -122,14 +126,20 @@ class _BookDetailState extends State<BookDetail> {
                             'Published Date: ${bookInfo.publishedDate.toString().substring(0, 10)}',
                             style: const TextStyle(fontSize: 18),
                           ),
-                          const SizedBox(height: 8),
-                          //
-                          const SizedBox(height: 16),
+                          const Divider(
+                            thickness: 1,
+                            color: Colors.black,
+                          ),
                           Text(
                             bookInfo.description ?? 'No description available.',
                             style: const TextStyle(fontSize: 16),
                           ),
-                          const SizedBox(height: 200), // Some spacing to allow scroll
+                          const Divider(
+                            thickness: 1,
+                            color: Colors.black,
+                          ),
+                          const SizedBox(
+                            height: 50,)
                         ],
                       ),
                     ),
@@ -147,7 +157,7 @@ class _BookDetailState extends State<BookDetail> {
               right: 0,
               child: Container(
                 color: Colors.white.withOpacity(0.9), // Slight transparency
-                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
+                padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 32.0),
                 child: ElevatedButton(
                   onPressed: bookState == null
                       ? () async {

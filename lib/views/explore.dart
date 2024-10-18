@@ -92,7 +92,7 @@ class _ExploreState extends State<Explore> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: bookCache.entries.map((entry) {
                 return BookRow(query: entry.key, books: entry.value);
-              }).toList()..shuffle(),
+              }).toList(),
             ),
           ),
         ),

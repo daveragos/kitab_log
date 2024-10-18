@@ -166,7 +166,10 @@ IconButton(
               // Display the currently selected child view
               SizedBox(
                 height: MediaQuery.of(context).size.height - 160, // Adjust height based on the bottom navigation bar
-                child: getBody(),
+                child: IndexedStack(
+                  index: _selectedIndex,
+                  children: _children
+                  ),
               ),
             ],
           ),
