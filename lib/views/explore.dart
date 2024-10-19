@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_books_api/google_books_api.dart';
 import 'package:http/http.dart';
 import 'package:kitablog/views/widgets/book_row.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart'; // Import the package
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:connectivity_plus/connectivity_plus.dart'; // Add this import
 
 class Explore extends StatefulWidget {
   const Explore({super.key});
@@ -13,6 +14,22 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
+  bool _isConnected = true;
+
+  Future<void> _checkInternetConnection() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        _isConnected = false;
+      });
+    } else {
+      setState(() {
+        _isConnected = true;
+      });
+      _loadBooks();
+    }
+  }
+
   Future<List<Book>> getBooks(String query,
       {QueryType queryType = QueryType.subject}) async {
     List<Book> books = [];
@@ -30,10 +47,11 @@ class _ExploreState extends State<Explore> {
   }
 
   Future<void> _refreshBooks() async {
-    if (mounted) {
+    if (_isConnected && mounted) {
       setState(() {
         // Trigger rebuild to refresh the books
       });
+      await _loadBooks();
     }
   }
 
@@ -68,7 +86,7 @@ class _ExploreState extends State<Explore> {
   @override
   void initState() {
     super.initState();
-    _loadBooks();
+    _checkInternetConnection();
   }
 
   Future<void> _loadBooks() async {
@@ -85,20 +103,39 @@ class _ExploreState extends State<Explore> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LiquidPullToRefresh(
-        onRefresh: _refreshBooks,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: bookCache.entries.map((entry) {
-                return BookRow(query: entry.key, books: entry.value);
-              }).toList(),
+      body: _isConnected
+          ? LiquidPullToRefresh(
+              onRefresh: _refreshBooks,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: bookCache.entries.map((entry) {
+                      return BookRow(query: entry.key, books: entry.value);
+                    }).toList(),
+                  ),
+                ),
+              ),
+            )
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.wifi_off, size: 50, color: Colors.grey),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'No Internet Connection',
+                    style: TextStyle(fontSize: 18, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _checkInternetConnection,
+                    child: const Text('Try Again'),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }
