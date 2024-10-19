@@ -9,7 +9,7 @@ class Account extends StatefulWidget {
 
 class _AccountState extends State<Account> {
   final List<Map<String, String>> teamMembers = [
-    {'name': 'Dawit Beyene', 'role': 'Team Leader', 'bio': 'Flutter Developer'},
+    {'name': 'Dawit Beyene', 'role': 'Mobile Developer', 'bio': 'Flutter Developer'},
     {'name': 'Dereje Kenea', 'role': 'Backend Developer', 'bio': 'Database Design'},
     {'name': 'Ayene Addisie', 'role': 'UI/UX Designer', 'bio': 'Flutter Developer'},
     {'name': 'Adugna Birhanu', 'role': 'UI/UX Designer', 'bio': 'Design Specialist'},

@@ -2,18 +2,17 @@ import 'package:kitablog/models/saved_book.dart';
 import 'package:kitablog/services/db_helper.dart';
 import 'package:flutter/material.dart';
 
-class ShelfBookDetail extends StatefulWidget {
+class EditBook extends StatefulWidget {
   final SavedBook book;
   final Function onUpdate;
 
-  const ShelfBookDetail(
-      {super.key, required this.book, required this.onUpdate});
+  const EditBook({super.key, required this.book, required this.onUpdate});
 
   @override
-  _ShelfBookDetailState createState() => _ShelfBookDetailState();
+  _EditBookState createState() => _EditBookState();
 }
 
-class _ShelfBookDetailState extends State<ShelfBookDetail> {
+class _EditBookState extends State<EditBook> {
   late String _state;
   late TextEditingController _titleController;
   late TextEditingController _subtitleController;
@@ -40,20 +39,15 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
     _subtitleController = TextEditingController(text: widget.book.subtitle);
     _authorsController = TextEditingController(text: widget.book.authors);
     _imageUrlController = TextEditingController(text: widget.book.imageUrl);
-    _descriptionController =
-        TextEditingController(text: widget.book.description);
-    _priceController =
-        TextEditingController(text: widget.book.price.toString());
-    _ratingController =
-        TextEditingController(text: widget.book.rating.toString());
-    _pagesController =
-        TextEditingController(text: widget.book.pages.toString());
+    _descriptionController = TextEditingController(text: widget.book.description);
+    _priceController = TextEditingController(text: widget.book.price.toString());
+    _ratingController = TextEditingController(text: widget.book.rating.toString());
+    _pagesController = TextEditingController(text: widget.book.pages.toString());
     _languageController = TextEditingController(text: widget.book.language);
     _isbnController = TextEditingController(text: widget.book.isbn);
     _categoryController = TextEditingController(text: widget.book.categories);
     _publisherController = TextEditingController(text: widget.book.publisher);
-    _publishedDateController =
-        TextEditingController(text: widget.book.publishedDate);
+    _publishedDateController = TextEditingController(text: widget.book.publishedDate);
     _timestampController = TextEditingController(text: widget.book.timestamp);
     _state = widget.book.state;
   }
@@ -106,7 +100,6 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
 
   Future<void> _deleteBook() async {
     await _dbHelper.deleteReading(widget.book.id!);
-
     widget.onUpdate();
     Navigator.pop(context, true);
   }
@@ -169,33 +162,7 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
                       ),
                       child: IconButton(
                         icon: const Icon(Icons.delete_outline),
-                        onPressed: () async{
-                          AlertDialog alert = AlertDialog(
-                            title: const Text('Delete Book'),
-                            content: const Text(
-                                'Are you sure you want to delete this book?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context, false);
-                                },
-                                child: const Text('Cancel'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  _deleteBook();
-                                  Navigator.pop(context, true);
-                                },
-                                child: const Text('Delete'),
-                              ),
-                            ],
-                          );
-
-                          await showDialog(
-                            context: context,
-                            builder: (context) => alert,
-                          );
-                        },
+                        onPressed: _deleteBook,
                       ),
                     ),
                   ],
@@ -213,8 +180,7 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
                       ),
                       TextFormField(
                         controller: _subtitleController,
-                        decoration:
-                            const InputDecoration(labelText: 'Subtitle'),
+                        decoration: const InputDecoration(labelText: 'Subtitle'),
                       ),
                       TextFormField(
                         controller: _priceController,
@@ -232,33 +198,28 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
                       ),
                       TextFormField(
                         controller: _languageController,
-                        decoration:
-                            const InputDecoration(labelText: 'Language'),
+                        decoration: const InputDecoration(labelText: 'Language'),
                       ),
                       TextFormField(
                         controller: _isbnController,
-                        decoration: const InputDecoration(labelText: 'ISBN'),
+                                                decoration: const InputDecoration(labelText: 'ISBN'),
                       ),
                       TextFormField(
                         controller: _categoryController,
-                        decoration:
-                            const InputDecoration(labelText: 'Category'),
+                        decoration: const InputDecoration(labelText: 'Category'),
                       ),
                       //description
                       TextFormField(
                         controller: _descriptionController,
-                        decoration:
-                            const InputDecoration(labelText: 'Description'),
+                        decoration: const InputDecoration(labelText: 'Description'),
                       ),
                       TextFormField(
                         controller: _publisherController,
-                        decoration:
-                            const InputDecoration(labelText: 'Publisher'),
+                        decoration: const InputDecoration(labelText: 'Publisher'),
                       ),
                       TextFormField(
                         controller: _publishedDateController,
-                        decoration:
-                            const InputDecoration(labelText: 'Published Date'),
+                        decoration: const InputDecoration(labelText: 'Published Date'),
                       ),
                       DropdownButtonFormField<String>(
                         value: _state,
