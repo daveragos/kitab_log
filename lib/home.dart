@@ -120,7 +120,7 @@ class _HomeState extends State<Home> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Not implemented yet.'),
-                            ), 
+                            ),
                           );
                         },
                       ),

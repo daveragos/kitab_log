@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_books_api/google_books_api.dart';
 import 'package:kitablog/views/book_detail.dart';
 import 'package:kitablog/services/db_helper.dart';
+import 'package:kitablog/views/search.dart';
 
 class BookList extends StatefulWidget {
   const BookList({super.key, required this.query, required this.books});
@@ -101,12 +102,12 @@ class _BookListState extends State<BookList> {
                         ),
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.notifications_none),
+                        icon: const Icon(Icons.search),
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Not implemented yet.'),
-                            ),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SearchPage()),
                           );
                         },
                       ),

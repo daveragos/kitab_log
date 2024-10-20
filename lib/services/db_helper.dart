@@ -85,7 +85,9 @@ String categories = bookInfo.categories != null ? bookInfo.categories.join(', ')
     'categories': categories ?? '',
     'publisher': bookInfo.publisher ?? '',
     'publishedDate': bookInfo.publishedDate?.toIso8601String() ?? '',
-    'isbn': bookInfo.industryIdentifiers[0].identifier ?? '',
+'isbn': (bookInfo.industryIdentifiers != null && bookInfo.industryIdentifiers.isNotEmpty)
+    ? bookInfo.industryIdentifiers[0].identifier
+    : '',  // Provide a fallback value (e.g., empty string) if not available
     'authors': authors ?? '',
     'imageUrl': localImagePath ?? '',  // Store local image path instead of URL.
     'description': bookInfo.description ?? '',

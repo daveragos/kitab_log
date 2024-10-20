@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_books_api/google_books_api.dart';
 import 'package:kitablog/services/api_helper.dart';
-import 'package:kitablog/views/widgets/saved_book_list.dart';
+import 'package:kitablog/views/widgets/book_column.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -28,10 +28,12 @@ class _SearchPageState extends State<SearchPage> {
     final googleBooksAPI = ApiHelper();
     try {
       final results = await googleBooksAPI.getBooks(query, queryType: queryType);
+
+      // Navigate to BookList page to show search results
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SavedBookList(books: results),
+          builder: (context) => BookList(query: query, books: results),
         ),
       );
     } catch (e) {
