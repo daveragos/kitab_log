@@ -20,20 +20,15 @@ class _ExploreState extends State<Explore> {
   Future<void> _checkInternetConnection() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-            if (mounted) {
       setState(() {
         _isConnected = false;
         _errorMessage = 'No Internet Connection';
       });
-            }
     } else {
-            if (mounted) {
-
       setState(() {
         _isConnected = true;
         _errorMessage = '';
       });
-            }
       _loadBooks();
     }
   }
@@ -45,38 +40,32 @@ class _ExploreState extends State<Explore> {
       books = await const GoogleBooksApi().searchBooks(query,
           queryType: queryType, orderBy: OrderBy.newest, langRestrict: 'en');
     } on SocketException {
-            if (mounted) {
-
       setState(() {
         _errorMessage = 'No internet connection. Please check your connection.';
+        _isConnected = false;
       });
-            }
     } on ClientException {
-            if (mounted) {
-
       setState(() {
         _errorMessage = 'Problem with internet. Please try again.';
-      });}
+        _isConnected = false;
+      });
     } on SearchFailedException {
-            if (mounted) {
-setState(() {
+      setState(() {
         _errorMessage = 'Search failed. This is an issue on Google\'s side.';
+        _isConnected = false;
       });
-}    } catch (e) {
-       if (mounted) {
-     setState(() {
+    } catch (e) {
+      setState(() {
         _errorMessage = 'An unexpected error occurred. Please try again later.';
+        _isConnected = false;
       });
-             }      debugPrint('Error: $e');
+      debugPrint('Error: $e');
     }
     return books;
   }
 
   Future<void> _refreshBooks() async {
-    if (_isConnected && mounted) {
-      setState(() {
-        // Trigger rebuild to refresh the books
-      });
+    if (_isConnected) {
       await _loadBooks();
     }
   }
@@ -116,13 +105,23 @@ setState(() {
   }
 
   Future<void> _loadBooks() async {
+    bool hasError = false;
+
     for (String category in categories) {
       List<Book> books = await getBooks(category);
-      if (mounted) {
-        setState(() {
-          bookCache[category] = books;
-        });
+      if (books.isEmpty) {
+        hasError = true; // Mark if any category fetch fails
       }
+      setState(() {
+        bookCache[category] = books;
+      });
+    }
+
+    if (hasError) {
+      setState(() {
+        _isConnected = false;
+        _errorMessage = 'Failed to load books. Please try again.';
+      });
     }
   }
 

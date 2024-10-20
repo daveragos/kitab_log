@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:kitablog/models/saved_book.dart';
 import 'package:google_books_api/google_books_api.dart';
 import 'package:path/path.dart';
@@ -85,7 +87,7 @@ String categories = bookInfo.categories != null ? bookInfo.categories.join(', ')
     'categories': categories ?? '',
     'publisher': bookInfo.publisher ?? '',
     'publishedDate': bookInfo.publishedDate?.toIso8601String() ?? '',
-'isbn': (bookInfo.industryIdentifiers != null && bookInfo.industryIdentifiers.isNotEmpty)
+'isbn': (bookInfo.industryIdentifiers.isNotEmpty)
     ? bookInfo.industryIdentifiers[0].identifier
     : '',  // Provide a fallback value (e.g., empty string) if not available
     'authors': authors ?? '',

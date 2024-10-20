@@ -171,7 +171,7 @@ class _HomeState extends State<Home> {
                         index: _selectedIndex - 1, // Shift index by 1 for the remaining children
                         children: _children,
                       ),
-                ),
+              ),
             ],
           ),
         ),

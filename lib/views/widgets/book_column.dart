@@ -248,7 +248,7 @@ class _BookListState extends State<BookList> {
                                               textStyle: const TextStyle(fontSize: 18),
                                             ),
                                             child: bookState != null
-                                                ? Text(bookState!) // Show current state (e.g., Planned)
+                                                ? Text(bookState) // Show current state (e.g., Planned)
                                                 : const Text('Add to Shelf'),
                                           ),
                                         ],
