@@ -116,10 +116,11 @@ class _HomeState extends State<Home> {
                       child: IconButton(
                         icon: const Icon(Icons.menu),
                         onPressed: () {
+                          //todo: show drawer with about page
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Not implemented yet.'),
-                            ),
+                            ), 
                           );
                         },
                       ),

@@ -186,7 +186,7 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
                                   _deleteBook();
                                   Navigator.pop(context, true);
                                 },
-                                child: const Text('Delete'),
+                                child: const Text('Delete', style: TextStyle(color: Colors.red)),
                               ),
                             ],
                           );

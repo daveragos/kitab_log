@@ -4,7 +4,7 @@ import 'package:google_books_api/google_books_api.dart';
 import 'package:http/http.dart';
 import 'package:kitablog/views/widgets/book_row.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:connectivity_plus/connectivity_plus.dart'; // Add this import
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class Explore extends StatefulWidget {
   const Explore({super.key});
@@ -15,17 +15,25 @@ class Explore extends StatefulWidget {
 
 class _ExploreState extends State<Explore> {
   bool _isConnected = true;
+  String _errorMessage = '';
 
   Future<void> _checkInternetConnection() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
+            if (mounted) {
       setState(() {
         _isConnected = false;
+        _errorMessage = 'No Internet Connection';
       });
+            }
     } else {
+            if (mounted) {
+
       setState(() {
         _isConnected = true;
+        _errorMessage = '';
       });
+            }
       _loadBooks();
     }
   }
@@ -36,12 +44,30 @@ class _ExploreState extends State<Explore> {
     try {
       books = await const GoogleBooksApi().searchBooks(query,
           queryType: queryType, orderBy: OrderBy.newest, langRestrict: 'en');
-    } on SocketException catch (e) {
-      debugPrint(e.toString());
-    } on ClientException catch (e) {
-      debugPrint(e.toString());
-    } catch (e) {
-      debugPrint(e.toString());
+    } on SocketException {
+            if (mounted) {
+
+      setState(() {
+        _errorMessage = 'No internet connection. Please check your connection.';
+      });
+            }
+    } on ClientException {
+            if (mounted) {
+
+      setState(() {
+        _errorMessage = 'Problem with internet. Please try again.';
+      });}
+    } on SearchFailedException {
+            if (mounted) {
+setState(() {
+        _errorMessage = 'Search failed. This is an issue on Google\'s side.';
+      });
+}    } catch (e) {
+       if (mounted) {
+     setState(() {
+        _errorMessage = 'An unexpected error occurred. Please try again later.';
+      });
+             }      debugPrint('Error: $e');
     }
     return books;
   }
@@ -124,9 +150,9 @@ class _ExploreState extends State<Explore> {
                 children: [
                   const Icon(Icons.wifi_off, size: 50, color: Colors.grey),
                   const SizedBox(height: 10),
-                  const Text(
-                    'No Internet Connection',
-                    style: TextStyle(fontSize: 18, color: Colors.grey),
+                  Text(
+                    _errorMessage,
+                    style: const TextStyle(fontSize: 18, color: Colors.grey),
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
