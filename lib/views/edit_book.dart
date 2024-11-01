@@ -17,6 +17,7 @@ class _EditBookState extends State<EditBook> {
   late String _state;
   late TextEditingController _titleController;
   late TextEditingController _subtitleController;
+
   late TextEditingController _authorsController;
   late TextEditingController _imageUrlController;
   late TextEditingController _descriptionController;
@@ -178,6 +179,7 @@ class _EditBookState extends State<EditBook> {
                         controller: _subtitleController,
                         label: 'Subtitle',
                       ),
+                      KTextFormField(controller: _authorsController, label: 'Author(s)'),
                       KTextFormField(
                         controller: _priceController,
                         label: 'Price',

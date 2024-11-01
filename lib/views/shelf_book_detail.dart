@@ -1,6 +1,7 @@
 import 'package:kitablog/models/saved_book.dart';
 import 'package:kitablog/services/db_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:kitablog/views/widgets/k_text_form_field.dart';
 
 class ShelfBookDetail extends StatefulWidget {
   final SavedBook book;
@@ -205,58 +206,50 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      TextFormField(
-                        controller: _titleController,
-                        decoration: const InputDecoration(labelText: 'Title'),
-                      ),
-                      TextFormField(
+                      KTextFormField(controller: _titleController, label: 'Title'),
+                      KTextFormField(
                         controller: _subtitleController,
-                        decoration:
-                            const InputDecoration(labelText: 'Subtitle'),
+                        label: 'Subtitle',
                       ),
-                      TextFormField(
+                      KTextFormField(controller: _authorsController, label: 'Author(s)'),
+                      KTextFormField(
                         controller: _priceController,
-                        decoration: const InputDecoration(labelText: 'Price'),
+                        label: 'Price',
                         keyboardType: TextInputType.number,
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _ratingController,
-                        decoration: const InputDecoration(labelText: 'Rating'),
+                        label: 'Rating',
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _pagesController,
-                        decoration: const InputDecoration(labelText: 'Pages'),
+                        label: 'Pages',
                         keyboardType: TextInputType.number,
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _languageController,
-                        decoration:
-                            const InputDecoration(labelText: 'Language'),
+                        label: 'Language',
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _isbnController,
-                        decoration: const InputDecoration(labelText: 'ISBN'),
+                        label: 'ISBN',
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _categoryController,
-                        decoration:
-                            const InputDecoration(labelText: 'Category'),
+                        label: 'Category',
                       ),
 
-                      TextFormField(
+                      KTextFormField(
                         controller: _descriptionController,
-                        decoration:
-                            const InputDecoration(labelText: 'Description'),
+                        label: 'Description',
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _publisherController,
-                        decoration:
-                            const InputDecoration(labelText: 'Publisher'),
+                        label: 'Publisher',
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _publishedDateController,
-                        decoration:
-                            const InputDecoration(labelText: 'Published Date'),
+                        label: 'Published Date',
                       ),
                       DropdownButtonFormField<String>(
                         value: _state,

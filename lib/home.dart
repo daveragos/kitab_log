@@ -181,9 +181,11 @@ class _HomeState extends State<Home> {
         height: 60,
         items: _items,
         onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
+          if (mounted) {
+  setState(() {
+    _selectedIndex = index;
+  });
+}
         },
         backgroundColor: Colors.transparent,
         color: Colors.orangeAccent[100]!,

@@ -177,15 +177,16 @@ class _ShelfState extends State<Shelf> with SingleTickerProviderStateMixin {
                 Image.file(File(savedBook.imageUrl),
                     width: 150,
                     height: 200,
-                    fit: BoxFit.cover, errorBuilder: (BuildContext context,
-                        Object error, StackTrace? stackTrace) {
-                  return Image.asset(
-                    'assets/book_cover.png',
-                    width: 150,
-                    height: 200,
                     fit: BoxFit.cover,
-                  );
-                }),
+                    errorBuilder: (BuildContext context,
+                        Object error, StackTrace? stackTrace) {
+                          return Image.asset(
+                            'assets/book_cover.png',
+                            width: 150,
+                            height: 200,
+                            fit: BoxFit.cover,
+                          );
+                  }),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Column(

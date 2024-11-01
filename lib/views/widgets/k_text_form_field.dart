@@ -5,7 +5,7 @@ class KTextFormField extends StatelessWidget {
     super.key,
     required TextEditingController controller,
     required this.label,
-    this.keyboardType = TextInputType.none,
+    this.keyboardType = TextInputType.text,
     this.maxLines = 1
   }) : _titleController = controller;
 

@@ -20,15 +20,19 @@ class _ExploreState extends State<Explore> {
   Future<void> _checkInternetConnection() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      setState(() {
-        _isConnected = false;
-        _errorMessage = 'No Internet Connection';
-      });
+      if (mounted) {
+  setState(() {
+    _isConnected = false;
+    _errorMessage = 'No Internet Connection';
+  });
+}
     } else {
-      setState(() {
-        _isConnected = true;
-        _errorMessage = '';
-      });
+      if (mounted) {
+  setState(() {
+    _isConnected = true;
+    _errorMessage = '';
+  });
+}
       _loadBooks();
     }
   }
@@ -112,16 +116,20 @@ class _ExploreState extends State<Explore> {
       if (books.isEmpty) {
         hasError = true;
       }
-      setState(() {
-        bookCache[category] = books;
-      });
+      if (mounted) {
+  setState(() {
+    bookCache[category] = books;
+  });
+}
     }
 
     if (hasError) {
-      setState(() {
-        _isConnected = false;
-        _errorMessage = 'Failed to load books. Please try again.';
-      });
+      if (mounted) {
+  setState(() {
+    _isConnected = false;
+    _errorMessage = 'Failed to load books. Please try again.';
+  });
+}
     }
   }
 
