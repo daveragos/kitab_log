@@ -1,63 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class Account extends StatefulWidget {
+class Account extends StatelessWidget {
   const Account({super.key});
-
-  @override
-  State<Account> createState() => _AccountState();
-}
-
-class _AccountState extends State<Account> {
-  final List<Map<String, String>> teamMembers = [
-    {'name': 'Dawit Beyene', 'role': 'Mobile Developer', 'bio': 'Flutter Developer'},
-    {'name': 'Dereje Kenea', 'role': 'Backend Developer', 'bio': 'Database Design'},
-    {'name': 'Ayene Addisie', 'role': 'UI/UX Designer', 'bio': 'Flutter Developer'},
-    {'name': 'Adugna Birhanu', 'role': 'UI/UX Designer', 'bio': 'Design Specialist'},
-    {'name': 'Rabi Muluken', 'role': 'Backend Developer', 'bio': 'API Integration'},
-    {'name': 'Tamene Haile', 'role': 'UI/UX Designer', 'bio': 'Design Specialist'},
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('About Us'),
-        backgroundColor: Colors.orangeAccent,
+        title: const Text('About Me'),
+                backgroundColor: Colors.orangeAccent[100]!,
+
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Our Team',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              'Hi! I\'m Dawit Beyene',
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.teal),
             ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: teamMembers.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.orangeAccent,
-                        child: Text(
-                          teamMembers[index]['name']![0],
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      title: Text(teamMembers[index]['name']!),
-                      subtitle: Text('${teamMembers[index]['role']} - ${teamMembers[index]['bio']}'),
-                    ),
-                  );
-                },
-              ),
+            const SizedBox(height: 8),
+            const Text(
+              'Flutter Developer | Mobile App Creator',
+              style: TextStyle(fontSize: 18, color: Colors.grey),
             ),
             const SizedBox(height: 20),
             const Text(
-              'This app was developed as part of a school mobile development project.',
-              style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center,
+              'About Me',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              'I create functional mobile applications using Flutter. I focus on developing user-friendly apps that improve daily tasks.',
+              style: TextStyle(fontSize: 16, height: 1.5),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Connect with Me!',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                const Icon(Icons.link, color: Colors.teal),
+                const SizedBox(width: 8),
+                GestureDetector(
+                  onTap: () {
+                    // Add your GitHub link here
+                    launchUrl(Uri.parse('https://github.com/daveragos'));
+                  },
+                  child: const Text(
+                    'My GitHub Profile',
+                    style: TextStyle(fontSize: 16, color: Colors.teal, decoration: TextDecoration.underline),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                const Icon(Icons.star, color: Colors.yellow),
+                const SizedBox(width: 8),
+                GestureDetector(
+                  onTap: () {
+                    // Add your GitHub repo link here
+                    launchUrl(Uri.parse('https://github.com/daveragos/kitab_log'));
+                  },
+                  child: const Text(
+                    '⭐ Star My Repository',
+                    style: TextStyle(fontSize: 16, color: Colors.teal, decoration: TextDecoration.underline),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
