@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison
+
 
 import 'package:kitablog/models/saved_book.dart';
 import 'package:google_books_api/google_books_api.dart';
@@ -23,7 +23,7 @@ class DBHelper {
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    // Initialize the database
+
     _database = await _initDB();
     return _database!;
   }
@@ -69,30 +69,30 @@ class DBHelper {
 String categories = bookInfo.categories != null ? bookInfo.categories.join(', ') : '';
   String authors = bookInfo.authors != null ? bookInfo.authors.join(', ') : '';
 
-  // Download the image and get the local path
+
   String imageUrl = bookInfo.imageLinks?['thumbnail'].toString() ?? '';
   String localImagePath = imageUrl.isNotEmpty
       ? await _downloadImage(imageUrl, book.id)
       : 'https://lh3.googleusercontent.com/proxy/4z1e5tJL9nhsfFc6X3jsElJ_xOvo1uuiiCb5J_qdv7ZjOw5J4bzP1E3FdFbYBlvQpcIs7kgXC2xcKovRP-L2cGEop_IXbL3P1SauzTkY';  // Default if no image is available.
 
   return await db.insert('readings', {
-    'bookId': book.id ?? '',
-    'title': bookInfo.title ?? '',
-    'subtitle': bookInfo.subtitle ?? '',
-    'language': bookInfo.language ?? '',
-    'pages': bookInfo.pageCount.toString() ?? '',
+    'bookId': book.id,
+    'title': bookInfo.title,
+    'subtitle': bookInfo.subtitle,
+    'language': bookInfo.language,
+    'pages': bookInfo.pageCount.toString(),
 
     'price': '0',
-    'rating': bookInfo.averageRating.toString() ?? '',
-    'categories': categories ?? '',
-    'publisher': bookInfo.publisher ?? '',
+    'rating': bookInfo.averageRating.toString(),
+    'categories': categories,
+    'publisher': bookInfo.publisher,
     'publishedDate': bookInfo.publishedDate?.toIso8601String() ?? '',
 'isbn': (bookInfo.industryIdentifiers.isNotEmpty)
     ? bookInfo.industryIdentifiers[0].identifier
-    : '',  // Provide a fallback value (e.g., empty string) if not available
-    'authors': authors ?? '',
-    'imageUrl': localImagePath ?? '',  // Store local image path instead of URL.
-    'description': bookInfo.description ?? '',
+    : '',
+    'authors': authors,
+    'imageUrl': localImagePath,
+    'description': bookInfo.description,
     'state': 'Planned',
     'timestamp': DateTime.now().toIso8601String(),
   });
@@ -113,7 +113,7 @@ Future<int> insertBookFromLocal(SavedBook book) async {
   );
 }
 
-  // Update book state
+
   Future<int> updateReadingState(int id, String newState) async {
     final db = await database;
     return await db.update(
@@ -133,7 +133,7 @@ Future<int> insertBookFromLocal(SavedBook book) async {
       'title': book.title,
       'subtitle': book.subtitle,
       'authors': book.authors,
-      'imageUrl': book.imageUrl,  // Store local image path.
+      'imageUrl': book.imageUrl,
       'description': book.description,
       'state': book.state,
       'price': '0',
@@ -155,11 +155,11 @@ Future<int> insertBookFromLocal(SavedBook book) async {
   Future<int> deleteReading(int id) async {
   final db = await database;
 
-  // Fetch the book to delete and get the image path.
+
   final book = await db.query('readings', where: 'id = ?', whereArgs: [id]);
   if (book.isNotEmpty) {
     final imagePath = book[0]['imageUrl'];
-    // Delete the image file if it exists.
+
     final file = File(imagePath.toString());
     if (await file.exists()) {
       await file.delete();
@@ -174,7 +174,7 @@ Future<int> insertBookFromLocal(SavedBook book) async {
 }
 
 
-  // Get all readings
+
   Future<List<Map<String, dynamic>>> getReadings() async {
     final db = await database;
     return await db.query('readings');
@@ -184,20 +184,20 @@ Future<int> insertBookFromLocal(SavedBook book) async {
 
 Future<String> _downloadImage(String url, String bookId) async {
   try {
-    // Get the document directory to save images.
+
     final directory = await getApplicationDocumentsDirectory();
     final filePath = '${directory.path}/$bookId.jpg';
 
-    // Download the image.
+
     final response = await http.get(Uri.parse(url));
     final file = File(filePath);
 
-    // Save the image to local storage.
+
     await file.writeAsBytes(response.bodyBytes);
 
-    return filePath; // Return the local path of the saved image.
+    return filePath;
   } catch (e) {
     print('Error downloading image: $e');
-    return ''; // Return empty if download fails.
+    return '';
   }
 }

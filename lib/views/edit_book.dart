@@ -1,6 +1,7 @@
 import 'package:kitablog/models/saved_book.dart';
 import 'package:kitablog/services/db_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:kitablog/views/widgets/k_text_form_field.dart';
 
 class EditBook extends StatefulWidget {
   final SavedBook book;
@@ -27,10 +28,9 @@ class _EditBookState extends State<EditBook> {
   late TextEditingController _categoryController;
   late TextEditingController _publisherController;
   late TextEditingController _publishedDateController;
-  late TextEditingController _timestampController;
 
   final _formKey = GlobalKey<FormState>();
-  final DBHelper _dbHelper = DBHelper(); // DBHelper instance
+  final DBHelper _dbHelper = DBHelper();
 
   @override
   void initState() {
@@ -48,7 +48,6 @@ class _EditBookState extends State<EditBook> {
     _categoryController = TextEditingController(text: widget.book.categories);
     _publisherController = TextEditingController(text: widget.book.publisher);
     _publishedDateController = TextEditingController(text: widget.book.publishedDate);
-    _timestampController = TextEditingController(text: widget.book.timestamp);
     _state = widget.book.state;
   }
 
@@ -174,52 +173,49 @@ class _EditBookState extends State<EditBook> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      TextFormField(
-                        controller: _titleController,
-                        decoration: const InputDecoration(labelText: 'Title'),
-                      ),
-                      TextFormField(
+                      KTextFormField(controller: _titleController, label: 'Title'),
+                      KTextFormField(
                         controller: _subtitleController,
-                        decoration: const InputDecoration(labelText: 'Subtitle'),
+                        label: 'Subtitle',
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _priceController,
-                        decoration: const InputDecoration(labelText: 'Price'),
+                        label: 'Price',
                         keyboardType: TextInputType.number,
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _ratingController,
-                        decoration: const InputDecoration(labelText: 'Rating'),
+                        label: 'Rating',
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _pagesController,
-                        decoration: const InputDecoration(labelText: 'Pages'),
+                        label: 'Pages',
                         keyboardType: TextInputType.number,
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _languageController,
-                        decoration: const InputDecoration(labelText: 'Language'),
+                        label: 'Language',
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _isbnController,
-                                                decoration: const InputDecoration(labelText: 'ISBN'),
+                        label: 'ISBN',
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _categoryController,
-                        decoration: const InputDecoration(labelText: 'Category'),
+                        label: 'Category',
                       ),
-                      //description
-                      TextFormField(
+
+                      KTextFormField(
                         controller: _descriptionController,
-                        decoration: const InputDecoration(labelText: 'Description'),
+                        label: 'Description',
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _publisherController,
-                        decoration: const InputDecoration(labelText: 'Publisher'),
+                        label: 'Publisher',
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _publishedDateController,
-                        decoration: const InputDecoration(labelText: 'Published Date'),
+                        label: 'Published Date',
                       ),
                       DropdownButtonFormField<String>(
                         value: _state,

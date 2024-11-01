@@ -17,11 +17,11 @@ class SavedBookList extends StatelessWidget {
           final book = books[index];
           return ListTile(
             title: Text(book.volumeInfo.title),
-            subtitle: Text(book.volumeInfo.subtitle ?? ''),
+            subtitle: Text(book.volumeInfo.subtitle),
             leading: Image.network(book.volumeInfo.imageLinks?['thumbnail'].toString() ??
             'https://lh3.googleusercontent.com/proxy/4z1e5tJL9nhsfFc6X3jsElJ_xOvo1uuiiCb5J_qdv7ZjOw5J4bzP1E3FdFbYBlvQpcIs7kgXC2xcKovRP-L2cGEop_IXbL3P1SauzTkY'),
             onTap: () {
-              // Handle tap on the book, possibly navigate to details
+
               Navigator.push(
                 context,
                 MaterialPageRoute(

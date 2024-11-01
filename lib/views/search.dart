@@ -12,24 +12,24 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   String searchTerm = '';
-  bool isLoading = false; // For showing the loading indicator
+  bool isLoading = false;
   final TextEditingController _controller = TextEditingController();
 
   final List<String> recommendedCategories = [
     'Science Fiction', 'Technology', 'History', 'Romance', 'Art', 'Business'
   ];
 
-  // Method to search for books from Google Books API
+
   void _searchBooks(String query, {QueryType queryType = QueryType.intitle}) async {
     setState(() {
-      isLoading = true; // Start loading
+      isLoading = true;
     });
 
     final googleBooksAPI = ApiHelper();
     try {
       final results = await googleBooksAPI.getBooks(query, queryType: queryType);
 
-      // Navigate to BookList page to show search results
+
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -37,13 +37,13 @@ class _SearchPageState extends State<SearchPage> {
         ),
       );
     } catch (e) {
-      // Handle errors
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to search books: $e')),
       );
     } finally {
       setState(() {
-        isLoading = false; // Stop loading after search completes
+        isLoading = false;
       });
     }
   }
@@ -61,21 +61,21 @@ class _SearchPageState extends State<SearchPage> {
                 ? IconButton(
                     icon: const Icon(Icons.clear),
                     onPressed: () {
-                      _controller.clear(); // Clear the search input
+                      _controller.clear();
                       setState(() {
-                        searchTerm = ''; // Reset search term
+                        searchTerm = '';
                       });
                     },
                   )
-                : null, // Show 'X' icon only if there is input text
+                : null,
           ),
           onChanged: (text) {
             setState(() {
-              searchTerm = text; // Update the search term as user types
+              searchTerm = text;
             });
           },
           onSubmitted: (query) {
-            _searchBooks(query, queryType: QueryType.intitle); // Use 'intitle' for general search
+            _searchBooks(query, queryType: QueryType.intitle);
           },
         ),
       ),
@@ -95,15 +95,15 @@ class _SearchPageState extends State<SearchPage> {
               return ActionChip(
                 label: Text(category),
                 onPressed: () {
-                  _searchBooks(category, queryType: QueryType.subject); // Search by subject for recommended categories
+                  _searchBooks(category, queryType: QueryType.subject);
                 },
               );
             }).toList(),
           ),
           const SizedBox(height: 20),
           isLoading
-              ? const Center(child: CircularProgressIndicator()) // Show loading indicator
-              : const SizedBox.shrink(), // Hide it when not loading
+              ? const Center(child: CircularProgressIndicator())
+              : const SizedBox.shrink(),
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kitablog/models/saved_book.dart';
 import 'package:kitablog/services/db_helper.dart';
+import 'package:kitablog/views/widgets/k_text_form_field.dart';
 
 class AddBookScreen extends StatefulWidget {
   final Function onSave;
@@ -16,7 +17,7 @@ class AddBookScreen extends StatefulWidget {
 class _AddBookScreenState extends State<AddBookScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  // Controllers for form fields
+
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _subtitleController = TextEditingController();
   final TextEditingController _authorController = TextEditingController();
@@ -29,14 +30,12 @@ class _AddBookScreenState extends State<AddBookScreen> {
   final TextEditingController _publishedDateController = TextEditingController();
   final TextEditingController _isbnController = TextEditingController();
   final TextEditingController _languageController = TextEditingController();
-  final TextEditingController _timestampController = TextEditingController();
-  final TextEditingController _imageUrlController = TextEditingController();
 
-  // Variables to store form values
-  String _state = 'Planned'; // Default state
+
+  String _state = 'Planned';
   File? _selectedImage;
 
-  // Method to pick image from gallery
+
   Future<void> _pickImage() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -46,36 +45,36 @@ class _AddBookScreenState extends State<AddBookScreen> {
     }
   }
 
-  // Method to save the book
+
   Future<void> _saveBook() async {
     if (_formKey.currentState!.validate()) {
-      // Create a new SavedBook object
+
       SavedBook newBook = SavedBook(
         bookId: DateTime.now().millisecondsSinceEpoch.toString(),
         title: _titleController.text,
-        subtitle: _subtitleController.text ?? ' ',
+        subtitle: _subtitleController.text,
         authors: _authorController.text,
         description: _descriptionController.text,
-        pages: _pagesController.text ?? '0',
-        price: _priceController.text ?? '0.0',
-        rating: _ratingController.text ?? '0.0',
+        pages: _pagesController.text,
+        price: _priceController.text,
+        rating: _ratingController.text,
         categories: _categoriesController.text,
         state: _state,
-        imageUrl: _selectedImage != null ? _selectedImage!.path : ' ', // Store the image path
-        publisher: _publisherController.text ?? ' ',
-        publishedDate: _publishedDateController.text ?? ' ',
-        isbn: _isbnController.text ?? ' ',
-        language: _languageController.text ?? ' ',
+        imageUrl: _selectedImage != null ? _selectedImage!.path : ' ',
+        publisher: _publisherController.text,
+        publishedDate: _publishedDateController.text,
+        isbn: _isbnController.text,
+        language: _languageController.text,
         timestamp: DateTime.now().toIso8601String(),
       );
 
-      // Save the book in the database
+
       await DBHelper().insertBookFromLocal(newBook);
 
-      // Call the onSave function to refresh the book list
+
       widget.onSave();
 
-      // Close the add book screen
+
       Navigator.pop(context);
     }
   }
@@ -157,79 +156,37 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      TextFormField(
+                      KTextFormField(
                         controller: _titleController,
-                        decoration: const InputDecoration(labelText: 'Title'),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a title';
-                          }
-                          return null;
-                        },
+                        label: 'Title',
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _authorController,
-                        decoration: const InputDecoration(labelText: 'Author(s)'),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the author(s)';
-                          }
-                          return null;
-                        },
+                        label: 'Author(s)',
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _descriptionController,
-                        decoration: const InputDecoration(labelText: 'Description'),
+                        label: 'Description',
                         maxLines: 3,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a description';
-                          }
-                          return null;
-                        },
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _pagesController,
-                        decoration: const InputDecoration(labelText: 'Pages'),
+                        label:'Pages',
                         keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the number of pages';
-                          }
-                          return null;
-                        },
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _priceController,
-                        decoration: const InputDecoration(labelText: 'Price'),
+                        label: 'Price',
                         keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the price';
-                          }
-                          return null;
-                        },
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _ratingController,
-                        decoration: const InputDecoration(labelText: 'Rating'),
+                        label: 'Rating',
                         keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the rating';
-                          }
-                          return null;
-                        },
                       ),
-                      TextFormField(
+                      KTextFormField(
                         controller: _categoriesController,
-                        decoration: const InputDecoration(labelText: 'Categories'),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter categories';
-                          }
-                          return null;
-                        },
+                        label: 'Categories',
                       ),
                       DropdownButtonFormField<String>(
                         value: _state,

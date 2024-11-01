@@ -36,10 +36,10 @@ class ApiHelper {
       publisher: volumeInfo['publisher'] ?? '',
       pages: volumeInfo['pageCount']?.toString() ?? '',
       categories: (volumeInfo['categories'] as List<dynamic>?)?.join(', ') ?? '',
-      price: '', // Handle price if needed
+      price: '',
       language: volumeInfo['language'] ?? '',
-      rating: '', // Handle rating if needed
-      state: '', // Handle state if needed
+      rating: '',
+      state: '',
       timestamp: DateTime.now().toIso8601String(),
     );
   }

@@ -56,7 +56,7 @@ class _BookRowState extends State<BookRow> {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: GestureDetector(
                   onTap: () {
-                    // Navigate to the BookDetail screen
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -82,16 +82,16 @@ class _BookRowState extends State<BookRow> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      const SizedBox(height: 4), // Space between image and text
+                      const SizedBox(height: 4),
                       SizedBox(
-                        width: 150, // Match the width of the image
+                        width: 150,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               book.volumeInfo.title,
                               overflow: TextOverflow.ellipsis,
-                              maxLines: 2, // Allow for two lines for the title
+                              maxLines: 2,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -99,8 +99,8 @@ class _BookRowState extends State<BookRow> {
                             Text(
                               book.volumeInfo.authors.join(', '),
                               overflow: TextOverflow
-                                  .ellipsis, // Add ellipsis for overflow
-                              maxLines: 1, // Allow for one line for the authors
+                                  .ellipsis,
+                              maxLines: 1,
                               style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal,

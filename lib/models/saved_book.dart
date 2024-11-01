@@ -13,7 +13,7 @@ class SavedBook {
   final String publishedDate;
   final String isbn;
   final String authors;
-  final String imageUrl; // This will be a local path if the image is saved
+  final String imageUrl;
   final String description;
   final String state;
   final String timestamp;
@@ -38,7 +38,7 @@ class SavedBook {
     required this.timestamp,
   });
 
-  // Convert a SavedBook to a Map for inserting into SQLite
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -61,7 +61,7 @@ class SavedBook {
     };
   }
 
-  // Create a SavedBook from a Map (useful when retrieving data from SQLite)
+
   factory SavedBook.fromMap(Map<String, dynamic> book) {
     return SavedBook(
       id: book['id'],
@@ -77,7 +77,7 @@ class SavedBook {
       publishedDate: book['publishedDate'],
       isbn: book['isbn'],
       authors: book['authors'],
-      imageUrl: book['imageUrl'], // This will store the local image path
+      imageUrl: book['imageUrl'],
       description: book['description'],
       state: book['state'],
       timestamp: book['timestamp'],

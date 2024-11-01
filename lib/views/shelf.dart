@@ -13,13 +13,11 @@ class Shelf extends StatefulWidget {
 }
 
 class _ShelfState extends State<Shelf> with SingleTickerProviderStateMixin {
-  Future<List<Map<String, dynamic>>>? _readings;
   List<SavedBook> _allBooks = [];
   List<SavedBook> _filteredBooks = [];
   List<SavedBook> _searchedBooks = [];
   String _selectedTab = 'All';
   final TextEditingController _searchController = TextEditingController();
-  bool _isSearching = false;
 
   @override
   void initState() {
@@ -66,19 +64,17 @@ class _ShelfState extends State<Shelf> with SingleTickerProviderStateMixin {
     } else {
       _filteredBooks = _allBooks.where((book) => book.state == state).toList();
     }
-    _searchedBooks = _filteredBooks; // Reset search results to filtered books
+    _searchedBooks = _filteredBooks;
   }
 
   void _filterSearchResults(String query) {
     if (query.isEmpty) {
       setState(() {
-        _isSearching = false;
         _searchedBooks =
-            _filteredBooks; // Reset to the filtered list when search is cleared
+            _filteredBooks;
       });
     } else {
       setState(() {
-        _isSearching = true;
         _searchedBooks = _filteredBooks.where((book) {
           return book.title.toLowerCase().contains(query.toLowerCase()) ||
               book.authors.toLowerCase().contains(query.toLowerCase());
@@ -90,7 +86,7 @@ class _ShelfState extends State<Shelf> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4, // Number of tabs
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.orangeAccent,

@@ -110,7 +110,7 @@ class _ExploreState extends State<Explore> {
     for (String category in categories) {
       List<Book> books = await getBooks(category);
       if (books.isEmpty) {
-        hasError = true; // Mark if any category fetch fails
+        hasError = true;
       }
       setState(() {
         bookCache[category] = books;

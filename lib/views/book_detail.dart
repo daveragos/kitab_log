@@ -1,7 +1,7 @@
 import 'package:kitablog/services/db_helper.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
-import 'package:google_books_api/google_books_api.dart'; // For the blur effect
+import 'package:google_books_api/google_books_api.dart';
 
 class BookDetail extends StatefulWidget {
   final Book book;
@@ -22,10 +22,10 @@ class _BookDetailState extends State<BookDetail> {
     _checkIfBookExists();
   }
 
-  // Check if the book exists in the database
+
   Future<void> _checkIfBookExists() async {
     final db = DBHelper();
-    final result = await db.getReadings(); // Fetch all readings
+    final result = await db.getReadings();
     final book = result.firstWhere(
       (reading) => reading['bookId'] == widget.book.id,
       orElse: () => {},
@@ -33,12 +33,12 @@ class _BookDetailState extends State<BookDetail> {
 
     if (book.isNotEmpty) {
       setState(() {
-        bookState = book['state']; // Set the book's state
+        bookState = book['state'];
       });
     }
 
     setState(() {
-      isLoading = false; // Stop loading
+      isLoading = false;
     });
   }
 
@@ -111,19 +111,19 @@ class _BookDetailState extends State<BookDetail> {
                             style: const TextStyle(fontSize: 18),
                           ),
                           const SizedBox(height: 8),
-                          //publisher
+
                           Text(
                             'Publisher: ${bookInfo.publisher}',
                             style: const TextStyle(fontSize: 18),
                           ),
                           const SizedBox(height: 8),
-                          //category
+
                           Text(
                             'Category: ${bookInfo.categories.join(', ')}',
                             style: const TextStyle(fontSize: 18),
                           ),
                           const SizedBox(height: 8),
-                          //published date with cutting out the time
+
                           Text(
                             'Published Date: ${bookInfo.publishedDate.toString().substring(0, 10)}',
                             style: const TextStyle(fontSize: 18),
@@ -133,7 +133,7 @@ class _BookDetailState extends State<BookDetail> {
                             color: Colors.black,
                           ),
                           Text(
-                            bookInfo.description ?? 'No description available.',
+                            bookInfo.description,
                             style: const TextStyle(fontSize: 16),
                           ),
                           const Divider(
@@ -152,20 +152,20 @@ class _BookDetailState extends State<BookDetail> {
             ],
           ),
 
-          // Show button or state at the bottom
+
           if (!isLoading)
             Positioned(
               bottom: 0,
               left: 0,
               right: 0,
               child: Container(
-                color: Colors.white.withOpacity(0.9), // Slight transparency
+                color: Colors.white.withOpacity(0.9),
                 padding: const EdgeInsets.symmetric(
                     vertical: 12.0, horizontal: 32.0),
                 child: ElevatedButton(
                   onPressed: bookState == null
                       ? () async {
-                          // Save the book in SQLite when the user starts reading
+
                           await DBHelper()
                               .insertReadingFromGoogleApi(widget.book);
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -175,11 +175,11 @@ class _BookDetailState extends State<BookDetail> {
                           );
                           setState(() {
                             bookState =
-                                'Planned'; // Set the state to Planned when the user starts reading
+                                'Planned';
                           });
                           await DBHelper().getReadings();
                         }
-                      : null, // Disable button if book already exists
+                      : null,
                   style: ElevatedButton.styleFrom(
                     shape: const BeveledRectangleBorder(),
                     foregroundColor: Colors.black,

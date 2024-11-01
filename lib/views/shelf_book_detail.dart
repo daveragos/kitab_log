@@ -28,10 +28,9 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
   late TextEditingController _categoryController;
   late TextEditingController _publisherController;
   late TextEditingController _publishedDateController;
-  late TextEditingController _timestampController;
 
   final _formKey = GlobalKey<FormState>();
-  final DBHelper _dbHelper = DBHelper(); // DBHelper instance
+  final DBHelper _dbHelper = DBHelper();
 
   @override
   void initState() {
@@ -54,7 +53,6 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
     _publisherController = TextEditingController(text: widget.book.publisher);
     _publishedDateController =
         TextEditingController(text: widget.book.publishedDate);
-    _timestampController = TextEditingController(text: widget.book.timestamp);
     _state = widget.book.state;
   }
 
@@ -244,7 +242,7 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
                         decoration:
                             const InputDecoration(labelText: 'Category'),
                       ),
-                      //description
+
                       TextFormField(
                         controller: _descriptionController,
                         decoration:

@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 1;
   final List<Widget> _children = [
-    // const Shelf(),
+
     const Explore(),
     const Account(),
   ];
@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
     final googleBooksAPI = ApiHelper();
     try {
       final results = await googleBooksAPI.getBooks(query);
-      // Navigate to a new screen to display the results
+
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
         ),
       );
     } catch (e) {
-      // Handle error
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to search books: $e')),
       );
@@ -116,7 +116,7 @@ class _HomeState extends State<Home> {
                       child: IconButton(
                         icon: const Icon(Icons.menu),
                         onPressed: () {
-                          //todo: show drawer with about page
+
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Not implemented yet.'),
@@ -145,7 +145,7 @@ class _HomeState extends State<Home> {
                           color: Colors.black,
                         ),
                       )),
-                      child: // In the Home Page widget, modify the search button:
+                      child:
 
                           IconButton(
                         icon: const Icon(Icons.search),
@@ -161,14 +161,14 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ),
-              // Display the currently selected child view
+
               SizedBox(
                 height: MediaQuery.of(context).size.height -
-                    160, // Adjust height based on the bottom navigation bar
+                    160,
                 child:  _selectedIndex == 0
-                    ? const Shelf() // Reload Shelf page to get updated DB content
+                    ? const Shelf()
                     : IndexedStack(
-                        index: _selectedIndex - 1, // Shift index by 1 for the remaining children
+                        index: _selectedIndex - 1,
                         children: _children,
                       ),
               ),

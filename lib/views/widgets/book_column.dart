@@ -15,16 +15,16 @@ class BookList extends StatefulWidget {
 }
 
 class _BookListState extends State<BookList> {
-  Map<String, String?> bookStates = {}; // Store the state of each book
+  Map<String, String?> bookStates = {};
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _checkBooksInDB(); // Check all books in DB on initialization
+    _checkBooksInDB();
   }
 
-  // Check if the books exist in the database and get their states
+
   Future<void> _checkBooksInDB() async {
     final db = DBHelper();
     final readings = await db.getReadings();
@@ -36,12 +36,12 @@ class _BookListState extends State<BookList> {
           orElse: () => {},
         );
         if (foundBook.isNotEmpty) {
-          bookStates[book.id] = foundBook['state']; // Set the book's state
+          bookStates[book.id] = foundBook['state'];
         } else {
-          bookStates[book.id] = null; // Not added to shelf
+          bookStates[book.id] = null;
         }
       }
-      isLoading = false; // Stop loading
+      isLoading = false;
     });
   }
 
@@ -115,20 +115,20 @@ class _BookListState extends State<BookList> {
                   ],
                 ),
               ),
-              // Vertical list of all books
+
               isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : ListView.builder(
-                      shrinkWrap: true, // Important to make ListView scroll within SingleChildScrollView
-                      physics: const NeverScrollableScrollPhysics(), // Prevent internal scroll
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: widget.books.length,
                       itemBuilder: (context, index) {
                         final book = widget.books[index];
-                        final bookState = bookStates[book.id]; // Get the current state of the book
+                        final bookState = bookStates[book.id];
 
                         return GestureDetector(
                           onTap: () {
-                            // Navigate to the BookDetail screen
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -145,7 +145,7 @@ class _BookListState extends State<BookList> {
                             ),
                             margin: const EdgeInsets.all(8.0),
                             padding: const EdgeInsets.all(4.0),
-                            width: 150, // Match the width of the image
+                            width: 150,
                             child: Row(
                               children: [
                                 Image.network(
@@ -163,25 +163,25 @@ class _BookListState extends State<BookList> {
                                       Text(
                                         book.volumeInfo.title,
                                         overflow: TextOverflow.ellipsis,
-                                        maxLines: 2, // Allow for two lines for the title
+                                        maxLines: 2,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       Text(
                                         book.volumeInfo.authors.join(', '),
-                                        overflow: TextOverflow.ellipsis, // Add ellipsis for overflow
-                                        maxLines: 1, // Allow for one line for the authors
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                         style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.normal,
                                         ),
                                       ),
-                                      const SizedBox(height: 4), // Space between authors and description
+                                      const SizedBox(height: 4),
                                       Text(
                                         book.volumeInfo.description,
-                                        overflow: TextOverflow.ellipsis, // Add ellipsis for overflow
-                                        maxLines: 2, // Allow for four lines for the description
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
                                         style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.normal,
@@ -206,7 +206,7 @@ class _BookListState extends State<BookList> {
                                         children: [
                                           ElevatedButton(
                                             onPressed: () {
-                                              // Navigate to the BookDetail screen
+
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -228,7 +228,7 @@ class _BookListState extends State<BookList> {
                                           ElevatedButton(
                                             onPressed: bookState == null
                                                 ? () async {
-                                                    // Add book to shelf using SQLite
+
                                                     await DBHelper().insertReadingFromGoogleApi(book);
                                                     ScaffoldMessenger.of(context).showSnackBar(
                                                       const SnackBar(
@@ -236,10 +236,10 @@ class _BookListState extends State<BookList> {
                                                       ),
                                                     );
                                                     setState(() {
-                                                      bookStates[book.id] = 'Planned'; // Update state
+                                                      bookStates[book.id] = 'Planned';
                                                     });
                                                   }
-                                                : null, // Disable button if book already added
+                                                : null,
                                             style: ElevatedButton.styleFrom(
                                               shape: const BeveledRectangleBorder(),
                                               foregroundColor: Colors.black,
@@ -248,7 +248,7 @@ class _BookListState extends State<BookList> {
                                               textStyle: const TextStyle(fontSize: 18),
                                             ),
                                             child: bookState != null
-                                                ? Text(bookState) // Show current state (e.g., Planned)
+                                                ? Text(bookState)
                                                 : const Text('Add to Shelf'),
                                           ),
                                         ],
