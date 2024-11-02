@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:kitablog/models/saved_book.dart';
 import 'package:kitablog/services/db_helper.dart';
 import 'package:flutter/material.dart';
@@ -206,6 +209,32 @@ class _ShelfBookDetailState extends State<ShelfBookDetail> {
                   key: _formKey,
                   child: Column(
                     children: [
+                      InkWell(
+                        onTap: () async {
+                          final pickedFile = await ImagePicker().pickImage(
+                            source: ImageSource.gallery,
+                          );
+                          if (pickedFile != null) {
+                            setState(() {
+                              _imageUrlController.text = pickedFile.path;
+                            });
+                          }
+                        },
+                        child: Container(
+                          height: 300,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                          ),
+                          child: Image.file(
+                            File(widget.book.imageUrl),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                       KTextFormField(controller: _titleController, label: 'Title'),
                       KTextFormField(
                         controller: _subtitleController,

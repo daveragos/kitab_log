@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kitablog/services/api_helper.dart';
 import 'package:kitablog/views/account.dart';
 import 'package:kitablog/views/explore.dart';
+import 'package:kitablog/views/plan.dart';
 import 'package:kitablog/views/search.dart';
 import 'package:kitablog/views/shelf.dart';
 import 'package:kitablog/views/widgets/saved_book_list.dart';
@@ -19,13 +20,13 @@ class _HomeState extends State<Home> {
   final List<Widget> _children = [
 
     const Explore(),
-    const Account(),
+    const Plan(),
   ];
 
   final List<Widget> _items = [
     const Icon(Icons.library_books),
     const Icon(Icons.explore),
-    const Icon(Icons.person),
+    const Icon(Icons.auto_graph),
   ];
 
   Widget getBody() {
