@@ -1,16 +1,25 @@
-# kitablog
+# KitabLog
 
-A new Flutter project.
+A simple reading log app built with Flutter.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Search for books
+- Add books to your reading list
+- Log books you're reading, competed or plan to read
+- View your reading list
+- Plan your reading journey(Coming soon!)
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/1.png" width="200">
+<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/2.png" width="200">
+<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/3.png" width="200">
+<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/4.png" width="200">
+<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/5.png" width="200">
+<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/6.png" width="200">
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+## Contributing
+Contributions are welcome! If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request.
