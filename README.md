@@ -12,12 +12,11 @@ A simple reading log app built with Flutter.
 
 ## Screenshots
 
-<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/1.png" width="200">
-<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/2.png" width="200">
-<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/3.png" width="200">
-<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/4.png" width="200">
-<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/5.png" width="200">
-<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/6.png" width="200">
+<img src="https://github.com/daveragos/kitab_log/blob/main/Screenshots/image1.png" width="200">
+<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/image2.png" width="200">
+<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/image3.png" width="200">
+<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/image4.png" width="200">
+<img src="https://github.com/daveragos/kitab_log/blob/main/screenshots/image5.png" width="200">
 
 
 
