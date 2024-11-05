@@ -79,32 +79,35 @@ class _SearchPageState extends State<SearchPage> {
           },
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'Recommended Categories',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Recommended Categories',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
             ),
-          ),
-          Wrap(
-            spacing: 8,
-            children: recommendedCategories.map((category) {
-              return ActionChip(
-                label: Text(category),
-                onPressed: () {
-                  _searchBooks(category, queryType: QueryType.subject);
-                },
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 20),
-          isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : const SizedBox.shrink(),
-        ],
+            Wrap(
+              spacing: 8,
+              children: recommendedCategories.map((category) {
+                return ActionChip(
+                  label: Text(category),
+                  onPressed: () {
+                    _searchBooks(category, queryType: QueryType.subject);
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 20),
+            isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : const SizedBox.shrink(),
+          ],
+        ),
       ),
     );
   }

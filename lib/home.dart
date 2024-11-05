@@ -1,7 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:kitablog/services/api_helper.dart';
-import 'package:kitablog/views/account.dart';
 import 'package:kitablog/views/explore.dart';
 import 'package:kitablog/views/plan.dart';
 import 'package:kitablog/views/search.dart';

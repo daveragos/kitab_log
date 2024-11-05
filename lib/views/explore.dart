@@ -118,6 +118,7 @@ class _ExploreState extends State<Explore> {
       }
       if (mounted) {
   setState(() {
+    _isConnected = false;
     bookCache[category] = books;
   });
 }
